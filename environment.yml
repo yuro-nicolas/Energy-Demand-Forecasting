@@ -1,0 +1,29 @@
+name: energy-demand-rl
+channels:
+  - conda-forge
+  - defaults
+
+dependencies:
+  - python=3.10
+  - pip
+
+  - pip:
+      # Data
+      - pandas>=2.0.0
+      - numpy>=1.24.0
+      - scikit-learn>=1.3.0
+      - pyarrow>=14.0.0
+
+      # Deep Learning (LSTM + TCN)
+      - torch>=2.1.0
+
+      # Visualization
+      - matplotlib>=3.7.0
+      - seaborn>=0.12.0
+
+      # Notebooks
+      - jupyter>=1.0.0
+      - ipykernel>=6.0.0
+
+      # Dev / Testing
+      - pytest>=7.4.0
