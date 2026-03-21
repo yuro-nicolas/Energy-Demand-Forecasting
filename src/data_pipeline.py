@@ -28,11 +28,22 @@ TARGET_COL = "Global_active_power"
 
 def load_raw(path: str = RAW_PATH) -> pd.DataFrame:
     df = pd.read_csv(
-        path, sep=";",
-        parse_dates={"datetime": ["Date", "Time"]},
-        dayfirst=True, na_values=["?"], low_memory=False,
+        path,
+        sep=";",
+        na_values=["?"],
+        low_memory=False,
     )
+
+    # Combine Date + Time manually (pandas 2.x compatible)
+    df["datetime"] = pd.to_datetime(
+        df["Date"] + " " + df["Time"],
+        dayfirst=True,
+        errors="coerce"
+    )
+
+    df = df.drop(columns=["Date", "Time"])
     df = df.sort_values("datetime").reset_index(drop=True)
+
     return df
 
 
