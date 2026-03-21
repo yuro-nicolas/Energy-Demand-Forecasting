@@ -1,11 +1,5 @@
 """
-src/eval.py — Week 2 version
-Reads and displays individual model metrics from saved JSON files.
-
-Week 2 scope: show each model's val MAE and MAPE individually.
-Week 3 scope: full comparison table, ablation plots, slice analysis.
-
-Run: python src/eval.py
+Reads and displays individual model metrics from saved files.
 """
 
 import os
