@@ -1,25 +1,37 @@
-"""
-run.py — Week 2 Checkpoint Pipeline
-Usage: python run.py [--skip-download] [--epochs 30] [--seed 42]
+import subprocess
+import sys
+import os
+ 
+#Dependencies
+ 
+def install_dependencies():
+    """Install all required packages from requirements.txt before anything runs."""
+    req_path = os.path.join(os.path.dirname(__file__), "requirements.txt")
+    if not os.path.exists(req_path):
+        print("[setup] requirements.txt not found — skipping auto-install.")
+        return
+    print("=" * 60)
+    print("STEP 0: Installing dependencies from requirements.txt")
+    print("=" * 60)
+    result = subprocess.run(
+        [sys.executable, "-m", "pip", "install", "-r", req_path, "-q"],
+        capture_output=False,
+    )
+    if result.returncode == 0:
+        print("[setup] All dependencies installed successfully.\n")
+    else:
+        print("[setup] WARNING: Some packages may have failed to install.")
+        print("        Try manually: pip install -r requirements.txt\n")
+ 
+install_dependencies()
 
-Week 2 delivers:
-  - Data cleaned and split
-  - All models trained with full epochs and metrics logged
-  - CNN (TCN) experiment running with first results
-  - NLP component trained and prototyped
-  - RL agent trained with learning curves
-  - Initial metrics logged per model
+import argparse
+import os
+import sys
+import json
+import numpy as np
 
-NOT in Week 2 (these are Week 3 only):
-  - model_comparison.csv / .png  (results table)
-  - error_by_hour.png            (slice analysis)
-  - slice_by_hour.csv            (slice analysis)
-  - ablation writeup
-
-Output directories:
-  experiments/results/  <- model checkpoints, metrics JSON, saved models
-  experiments/logs/     <- loss curves, RL learning curve
-"""
+sys.path.insert(0, os.path.dirname(__file__))
 
 import argparse
 import os
