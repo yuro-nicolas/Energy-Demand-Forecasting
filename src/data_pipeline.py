@@ -1,6 +1,4 @@
 """
-src/data_pipeline.py
-====================
 Data pipeline for UCI Household Electric Power Consumption dataset.
 Handles loading, cleaning, feature engineering, and train/val/test splitting.
 
