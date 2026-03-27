@@ -33,14 +33,6 @@ import numpy as np
 
 sys.path.insert(0, os.path.dirname(__file__))
 
-import argparse
-import os
-import sys
-import json
-import numpy as np
-
-sys.path.insert(0, os.path.dirname(__file__))
-
 RESULTS_DIR = "experiments/results"
 LOGS_DIR    = "experiments/logs"
 
@@ -176,39 +168,77 @@ def main(args):
     )
     evaluate_agent(agent, forecasts, hours.astype(np.float32))
 
-    # ── Week 2 Summary ─────────────────────────────────────────────────────────
+
+    # ── 9. Full Evaluation ─────────────────────────────────────────────────────
     print("\n" + "="*60)
-    print("WEEK 2 CHECKPOINT COMPLETE")
+    print("STEP 9: Full Evaluation — Results Tables, Ablations, Slice Analysis")
+    print("        → experiments/results/")
     print("="*60)
-    print("\nModels saved → experiments/results/")
-    print("  linear_regression.pkl")
-    print("  random_forest.pkl")
-    print("  tabular_metrics.json")
-    print("  lstm_baseline_best.pt  +  lstm_baseline_metrics.json")
-    print("  lstm_best.pt           +  lstm_metrics.json")
-    print("  tcn_best.pt            +  tcn_metrics.json")
-    print("  nlp_classifier.pkl")
-    print("  rl_agent.json")
-    print("\nTraining logs → experiments/logs/")
-    print("  lstm_baseline_loss_curve.png")
-    print("  lstm_loss_curve.png")
-    print("  tcn_loss_curve.png")
-    print("  rl_learning_curve.png")
-    print("\nNOTE: Results comparison tables, ablation plots, and slice")
-    print("      analysis are Week 3 deliverables. Run Week 3 run.py")
-    print("      to generate model_comparison.csv/.png, error_by_hour.png,")
-    print("      and slice_by_hour.csv.")
+    from src.eval import run_evaluation
+    run_evaluation()
+
+    # ── 10. User Interface (optional) ──────────────────────────────────────────
+    if args.interact:
+        print("\n" + "="*60)
+        print("STEP 10: Launching User Interface")
+        print("         User inputs → forecast → RL → NLP summary → action log")
+        print("="*60)
+        from src.interface import run_interface
+        run_interface(
+            model_name  = args.model,
+            device_name = args.device,
+            ready_by    = args.ready_by,
+            comfort     = args.comfort,
+            interactive = True,
+        )
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Week 2 Checkpoint Pipeline")
-    parser.add_argument("--skip-download", action="store_true")
+    parser = argparse.ArgumentParser(
+        description="Energy Demand Forecasting + RL Load Scheduling — Full Pipeline"
+    )
+    parser.add_argument("--skip-download", action="store_true",
+                        help="Skip dataset download if data already present")
     parser.add_argument("--epochs",      type=int, default=30,
-                        help="Training epochs per model")
+                        help="Training epochs per DL model")
     parser.add_argument("--patience",    type=int, default=5,
                         help="Early stopping patience")
     parser.add_argument("--seed",        type=int, default=42)
     parser.add_argument("--rl-episodes", type=int, default=500,
                         help="RL training episodes")
+
+    # ── User interface flags ────────────────────────────────────────────────
+    parser.add_argument(
+        "--interact",
+        action="store_true",
+        help="Launch the user-facing scheduling interface after training "
+             "(Step 10). Prompts for appliance, deadline, and comfort profile.",
+    )
+    parser.add_argument(
+        "--model",
+        default="lstm",
+        choices=["lstm", "lstm_baseline", "tcn", "rf", "lr"],
+        help="Forecast model for the interface (default: lstm)",
+    )
+    parser.add_argument(
+        "--device",
+        default=None,
+        metavar="NAME",
+        help="Appliance name, e.g. 'Washing Machine' (interface only)",
+    )
+    parser.add_argument(
+        "--ready-by",
+        type=int,
+        default=None,
+        metavar="HOUR",
+        help="Deadline hour 0-23 for the interface (default: prompt user)",
+    )
+    parser.add_argument(
+        "--comfort",
+        default=None,
+        choices=["high_savings", "balanced", "high_comfort"],
+        help="Comfort/savings profile for the interface (default: prompt user)",
+    )
+
     args = parser.parse_args()
     main(args)
