@@ -24,10 +24,10 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from sklearn.metrics import mean_absolute_error, mean_absolute_percentage_error
 
-from data_pipeline import load_dataset, FEATURE_COLS
-from models.lstm_model import build_lstm_baseline, build_lstm_full
-from models.tcn_model import build_tcn
-from models.tabular_baseline import flatten, load_model as load_sklearn
+from src.data_pipeline import load_dataset, FEATURE_COLS
+from src.models.lstm_model import build_lstm_baseline, build_lstm_full
+from src.models.tcn_model import build_tcn
+from src.models.tabular_baseline import flatten, load_model as load_sklearn
 
 RESULTS_DIR = "experiments/results"
 DEVICE      = torch.device("cuda" if torch.cuda.is_available() else "cpu")
