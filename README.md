@@ -174,19 +174,6 @@ Top risks and mitigations:
 
 See `docs/ethics_statement.md` and `docs/model_card.md` for full details.
 
----
-
-## Team
-
-| Role | Member |
-|---|---|
-| Project Lead / Integration | [Member A] |
-| Data & Ethics Lead | [Member B] |
-| Modeling Lead | [Member C] |
-| Evaluation & MLOps Lead | [Member D] |
-
----
-
 ## License
 
 MIT License. See [LICENSE](LICENSE) for details.
