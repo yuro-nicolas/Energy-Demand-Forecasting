@@ -150,7 +150,6 @@ Run a sample NLP forecast summary after training:
 
 ```
 You can run directly on interface.py
-"
 ```
 
 Sample Expected output:
