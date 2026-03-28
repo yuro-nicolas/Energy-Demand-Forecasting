@@ -173,6 +173,17 @@ Top risks and mitigations:
 
 See `docs/ethics_statement.md` and `docs/model_card.md` for full details.
 
+## Team
+
+| Role | Member |
+|---|---|
+| Project Lead | Jared Gabriel Vitero |
+| Data & Ethics Lead | Euan Roie Nicolas |
+| Modeling Lead | Jan Nolasco |
+| Evaluation & MLOps Lead | Jeremiah Carbungco|
+
+---
+
 ## License
 
 MIT License. See [LICENSE](LICENSE) for details.
